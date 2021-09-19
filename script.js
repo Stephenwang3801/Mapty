@@ -11,6 +11,41 @@ const inputDuration = document.querySelector(".form__input--duration");
 const inputCadence = document.querySelector(".form__input--cadence");
 const inputElevation = document.querySelector(".form__input--elevation");
 
+class Workout {
+  date = new Date();
+  id = (Date.now() + "").slice(-10);
+
+  constructor(coords, distance, duration) {
+    this.coords = coords;
+    this.distance = distance;
+    this.duration = duration;
+  }
+}
+
+class Running extends Workout {
+  constructor(coords, distance, duration, cadence) {
+    super(coords, distance, duration);
+    this.cadence = cadence;
+  }
+
+  calcPace() {
+    this.pace = this.duration / this.distance;
+    return this.pace;
+  }
+}
+
+class Cycling extends Workout {
+  constructor(coords, distance, duration, elevationGain) {
+    super(coords, distance, duration);
+    this.elevationGain = elevationGain;
+  }
+
+  calcSpeed() {
+    this.speed = this.distance / (this.duration / 60);
+    return this.speed;
+  }
+}
+
 class App {
   #map;
   #mapEvent;
@@ -59,6 +94,20 @@ class App {
 
   _newWorkout(e) {
     e.preventDefault();
+
+    //Get data from form
+
+    //Check validity of data
+
+    //Create running or cycling workout
+
+    //Append new object to workout array
+
+    //Render new workout on map
+
+    //Render new workout on list
+
+    //Hide form and clear input fields
 
     //Clearing Input fields
     inputDistance.value =
