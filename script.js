@@ -15,6 +15,7 @@ class Workout {
 }
 
 class Running extends Workout {
+  type = "running";
   constructor(coords, distance, duration, cadence) {
     super(coords, distance, duration);
     this.cadence = cadence;
@@ -27,6 +28,7 @@ class Running extends Workout {
 }
 
 class Cycling extends Workout {
+  type = "cycling";
   constructor(coords, distance, duration, elevationGain) {
     super(coords, distance, duration);
     this.elevationGain = elevationGain;
@@ -49,6 +51,8 @@ const inputElevation = document.querySelector(".form__input--elevation");
 class App {
   #map;
   #mapEvent;
+  #workouts = [];
+
   constructor() {
     this._getPosition();
     form.addEventListener("submit", this._newWorkout.bind(this));
@@ -103,6 +107,8 @@ class App {
     const type = inputType.value;
     const distance = +inputDistance.value;
     const duration = +inputDuration.value;
+    const { lat, lng } = this.#mapEvent.latlng;
+    let workout;
     //Check validity of data
 
     //Create running or cycling workout
@@ -114,6 +120,7 @@ class App {
       ) {
         return alert("Inputs have to be positive numbers!");
       }
+      workout = new Running([lat, lng], distance, duration, cadence);
     } else if (type === "cycling") {
       const elevation = +inputElevation.value;
       if (
@@ -122,25 +129,13 @@ class App {
       ) {
         return alert("Inputs have to be positive numbers!");
       }
+      workout = new Cycling([lat, lng], distance, duration);
     }
     //Append new object to workout array
+    this.#workouts.push(workout);
 
     //Render new workout on map
-    //Marker Display
-    const { lat, lng } = this.#mapEvent.latlng;
-    L.marker([lat, lng])
-      .addTo(this.#map)
-      .bindPopup(
-        L.popup({
-          maxWidth: 250,
-          minWidth: 100,
-          autoClose: false,
-          closeOnClick: false,
-          className: "running-popup",
-        })
-      )
-      .setPopupContent("Workout")
-      .openPopup();
+    this.renderWorkoutMarker(workout);
 
     //Render new workout on list
 
@@ -152,6 +147,22 @@ class App {
       inputCadence.value =
       inputElevation.value =
         "";
+  }
+
+  renderWorkoutMarker(workout) {
+    L.marker(workout.coords)
+      .addTo(this.#map)
+      .bindPopup(
+        L.popup({
+          maxWidth: 250,
+          minWidth: 100,
+          autoClose: false,
+          closeOnClick: false,
+          className: `${workout.type}-popup`,
+        })
+      )
+      .setPopupContent("Workout")
+      .openPopup();
   }
 }
 
