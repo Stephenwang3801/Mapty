@@ -1,5 +1,5 @@
 # Mapty
-Mapty is a web application used to track your cycling and running workouts, built with JavaScript, HTML, and CSS. The application uses Leafletjs and the OpenStreetMap API, Geolocation API, JavaScript ES6 classes and fundamentals of Object Oriented Programming.
+Mapty is a web application used to track your cycling and running workouts, built with JavaScript, HTML, and CSS. The application uses Leafletjs and the OpenStreetMap API, Geolocation API, JavaScript classes, objects, and fundamentals of Object Oriented Programming.
 
 # Features
 - Live geolocation capabilities
